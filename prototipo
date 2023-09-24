@@ -1,0 +1,152 @@
+matriz =   [[0, 2, 0, 0], 
+            [0, 0, 0, 0], 
+            [0, 2, 0, 0], 
+            [0, 0, 0, 0]]
+
+def movimentoSoma(entrada):
+    if entrada == 'W':
+        for l in range(0, 4):
+            for c in range(0, 4):
+                if matriz[0][c] == 0:
+                    matriz[0][c] = matriz[1][c]
+                    matriz[1][c] = 0
+                if matriz[1][c] == 0:
+                    matriz[1][c] = matriz[2][c]
+                    matriz[2][c] = 0
+                if matriz[2][c] == 0:
+                    matriz[2][c] = matriz[3][c]
+                    matriz[3][c] = 0
+        for c in range(0, 4):
+            if matriz[0][c] == matriz[1][c]:
+                s1_cima = matriz[0][c] + matriz[1][c]
+                matriz[0][c] = s1_cima
+                matriz[1][c] = 0
+            if matriz[1][c] == matriz[2][c]:
+                s2_cima = matriz[1][c] + matriz[2][c]
+                matriz[1][c] = s2_cima
+                matriz[2][c] = 0
+            if matriz[2][c] == matriz[3][c]:
+                s3_cima = matriz[2][c] + matriz[3][c]
+                matriz[2][c] = s3_cima
+                matriz[3][c] = 0
+        for l in range(0, 4):
+            for c in range(0, 4):
+                if matriz[0][c] == 0:
+                    matriz[0][c] = matriz[1][c]
+                    matriz[1][c] = 0
+                if matriz[1][c] == 0:
+                    matriz[1][c] = matriz[2][c]
+                    matriz[2][c] = 0
+                if matriz[2][c] == 0:
+                    matriz[2][c] = matriz[3][c]
+                    matriz[3][c] = 0
+        return matriz
+    elif entrada == 'S':
+        for l in range(0, 4):
+            for c in range(0, 4):
+                if matriz[3][c] == 0:
+                    matriz[3][c] = matriz[2][c]
+                    matriz[2][c] = 0
+                if matriz[2][c] == 0:
+                    matriz[2][c] = matriz[1][c]
+                    matriz[1][c] = 0
+                if matriz[1][c] == 0:
+                    matriz[1][c] = matriz[0][c]
+                    matriz[0][c] = 0
+        for c in range(0, 4):
+            if matriz[3][c] == matriz[2][c]:
+                s1_baixo = matriz[3][c] + matriz[2][c]
+                matriz[3][c] = s1_baixo
+                matriz[2][c] = 0
+            if matriz[2][c] == matriz[1][c]:
+                s2_baixo = matriz[2][c] + matriz[1][c]
+                matriz[2][c] = s2_baixo
+                matriz[1][c] = 0
+            if matriz[1][c] == matriz[0][c]:
+                s3_baixo = matriz[1][c] + matriz[0][c]
+                matriz[1][c] = s3_baixo
+                matriz[0][c] = 0
+        for l in range(0, 4):
+            for c in range(0, 4):
+                if matriz[3][c] == 0:
+                    matriz[3][c] = matriz[2][c]
+                    matriz[2][c] = 0
+                if matriz[2][c] == 0:
+                    matriz[2][c] = matriz[1][c]
+                    matriz[1][c] = 0
+                if matriz[1][c] == 0:
+                    matriz[1][c] = matriz[0][c]
+                    matriz[0][c] = 0
+        return matriz
+    elif entrada == 'D':
+        for l in range(0, 4):
+            for c in range(0, 4):
+                if matriz[l][3] == 0:
+                    matriz[l][3] = matriz[l][2]
+                    matriz[l][2] = 0
+                if matriz[l][2] == 0:
+                    matriz[l][2] = matriz[l][1]
+                    matriz[l][1] = 0
+                if matriz[l][1] == 0:
+                    matriz[l][1] = matriz[l][0]
+                    matriz[l][0] = 0
+        for l in range(0, 4):
+            if matriz[l][3] == matriz[l][2]:
+                s1_dir = matriz[l][3] + matriz[l][2]
+                matriz[l][3] = s1_dir
+                matriz[l][2] = 0
+            if matriz[l][2] == matriz[l][1]:
+                s2_dir = matriz[l][2] + matriz[l][1]
+                matriz[l][2] = s2_dir
+                matriz[l][1] = 0
+            if matriz[l][1] == matriz[l][0]:
+                s3_dir = matriz[l][1] + matriz[l][0]
+                matriz[l][1] = s3_dir
+                matriz[l][0] = 0
+        for l in range(0, 4):
+            for c in range(0, 4):
+                if matriz[l][3] == 0:
+                    matriz[l][3] = matriz[l][2]
+                    matriz[l][2] = 0
+                if matriz[l][2] == 0:
+                    matriz[l][2] = matriz[l][1]
+                    matriz[l][1] = 0
+                if matriz[l][1] == 0:
+                    matriz[l][1] = matriz[l][0]
+                    matriz[l][0] = 0
+        return matriz
+    elif entrada == 'A':
+        for l in range(0, 4):
+            for c in range(0, 4):
+                if matriz[l][0] == 0:
+                    matriz[l][0] = matriz[l][1]
+                    matriz[l][1] = 0
+                if matriz[l][1] == 0:
+                    matriz[l][1] = matriz[l][2]
+                    matriz[l][2] = 0
+                if matriz[l][2] == 0:
+                    matriz[l][2] = matriz[l][3]
+                    matriz[l][3] = 0
+        for l in range(0, 4):
+            if matriz[l][0] == matriz[l][1]:
+                s1_dir = matriz[l][0] + matriz[l][1]
+                matriz[l][0] = s1_dir
+                matriz[l][1] = 0
+            if matriz[l][1] == matriz[l][2]:
+                s2_dir = matriz[l][1] + matriz[l][2]
+                matriz[l][1] = s2_dir
+                matriz[l][2] = 0
+            if matriz[l][2] == matriz[l][3]:
+                s3_dir = matriz[l][2] + matriz[l][3]
+                matriz[l][2] = s3_dir
+                matriz[l][3] = 0
+        return matriz
+    else:
+        return
+while True:
+    for l in range(0, 4):
+        for c in range(0, 4):
+            print(f'|{matriz[l][c]:^4}|', end='')
+        print()
+    entrada = input('Digite: ').upper().strip()[0]
+    movimentoSoma(entrada)
