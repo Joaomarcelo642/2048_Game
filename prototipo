@@ -19,14 +19,17 @@ def startGame(matriz):
         c = random.randint(0, 3) 
         if matriz[l][c] == 0:
             spawn += 1
-            matriz[l][c] = random.choice([2, 4])
+            matriz[l][c] = random.choice([1024])
     return matriz
 
 
 def exibirMatriz(matriz):
     for l in range(0, 4):
         for c in range(0, 4):
-            print(f'|{matriz[l][c]:^4}|'.replace('0', ' '), end='')
+            if matriz[l][c] == 1024 or matriz[l][c] == 2048:
+                print(f'|{matriz[l][c]:^4}|', end='')
+            else:
+                print(f'|{matriz[l][c]:^4}|'.replace('0', ' '), end='')
         print()
 
 
