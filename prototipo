@@ -1,7 +1,15 @@
 import random
 
-test = 0
+play = score = high_score = quant_jogadas = record_jogadas = 0
 
+def gerarMatriz():
+    matriz = []
+    for l in range(0, 4):
+        linha = []
+        for c in range (0, 4):
+            linha.append(0)
+        matriz.append(linha)
+    return matriz
 
 
 def startGame(matriz):
@@ -14,6 +22,14 @@ def startGame(matriz):
             matriz[l][c] = random.choice([2, 4])
     return matriz
 
+
+def exibirMatriz(matriz):
+    for l in range(0, 4):
+        for c in range(0, 4):
+            print(f'|{matriz[l][c]:^4}|'.replace('0', ' '), end='')
+        print()
+
+
 def matrizParaComparacao(matriz):
     matriz_salva = []
     for l in matriz:
@@ -22,6 +38,7 @@ def matrizParaComparacao(matriz):
             linha.append(c)
         matriz_salva.append(linha)
     return matriz_salva
+
 
 def spawnCasas(matriz):
     spawn = 0
@@ -37,6 +54,7 @@ def spawnCasas(matriz):
 
 
 def movimentoSoma(entrada):
+    global score
     if entrada == 'W':
         for l in range(0, 4):
             for c in range(0, 4):
@@ -54,14 +72,17 @@ def movimentoSoma(entrada):
                 s1_cima = matriz[0][c] + matriz[1][c]
                 matriz[0][c] = s1_cima
                 matriz[1][c] = 0
+                score += s1_cima
             if matriz[1][c] == matriz[2][c]:
                 s2_cima = matriz[1][c] + matriz[2][c]
                 matriz[1][c] = s2_cima
                 matriz[2][c] = 0
+                score += s2_cima
             if matriz[2][c] == matriz[3][c]:
                 s3_cima = matriz[2][c] + matriz[3][c]
                 matriz[2][c] = s3_cima
                 matriz[3][c] = 0
+                score += s3_cima
         for l in range(0, 4):
             for c in range(0, 4):
                 if matriz[0][c] == 0:
@@ -91,14 +112,17 @@ def movimentoSoma(entrada):
                 s1_baixo = matriz[3][c] + matriz[2][c]
                 matriz[3][c] = s1_baixo
                 matriz[2][c] = 0
+                score += s1_baixo
             if matriz[2][c] == matriz[1][c]:
                 s2_baixo = matriz[2][c] + matriz[1][c]
                 matriz[2][c] = s2_baixo
                 matriz[1][c] = 0
+                score += s2_baixo
             if matriz[1][c] == matriz[0][c]:
                 s3_baixo = matriz[1][c] + matriz[0][c]
                 matriz[1][c] = s3_baixo
                 matriz[0][c] = 0
+                score += s3_baixo
         for l in range(0, 4):
             for c in range(0, 4):
                 if matriz[3][c] == 0:
@@ -128,14 +152,17 @@ def movimentoSoma(entrada):
                 s1_dir = matriz[l][3] + matriz[l][2]
                 matriz[l][3] = s1_dir
                 matriz[l][2] = 0
+                score += s1_dir
             if matriz[l][2] == matriz[l][1]:
                 s2_dir = matriz[l][2] + matriz[l][1]
                 matriz[l][2] = s2_dir
                 matriz[l][1] = 0
+                score += s2_dir
             if matriz[l][1] == matriz[l][0]:
                 s3_dir = matriz[l][1] + matriz[l][0]
                 matriz[l][1] = s3_dir
                 matriz[l][0] = 0
+                score += s3_dir
         for l in range(0, 4):
             for c in range(0, 4):
                 if matriz[l][3] == 0:
@@ -162,17 +189,20 @@ def movimentoSoma(entrada):
                     matriz[l][3] = 0
         for l in range(0, 4):
             if matriz[l][0] == matriz[l][1]:
-                s1_dir = matriz[l][0] + matriz[l][1]
-                matriz[l][0] = s1_dir
+                s1_esq = matriz[l][0] + matriz[l][1]
+                matriz[l][0] = s1_esq
                 matriz[l][1] = 0
+                score += s1_esq
             if matriz[l][1] == matriz[l][2]:
-                s2_dir = matriz[l][1] + matriz[l][2]
-                matriz[l][1] = s2_dir
+                s2_esq = matriz[l][1] + matriz[l][2]
+                matriz[l][1] = s2_esq
                 matriz[l][2] = 0
+                score += s2_esq
             if matriz[l][2] == matriz[l][3]:
-                s3_dir = matriz[l][2] + matriz[l][3]
-                matriz[l][2] = s3_dir
+                s3_esq = matriz[l][2] + matriz[l][3]
+                matriz[l][2] = s3_esq
                 matriz[l][3] = 0
+                score += s3_esq
         for l in range(0, 4):
             for c in range(0, 4):
                 if matriz[l][0] == 0:
@@ -202,40 +232,58 @@ def verifJogadas(matriz):
             return True
     return False
 
+
 def verifCasasVazias(l, c):
     for l in range(0, 4):
         if matriz[l][c] == 0:
             return True
         else:
             return False
-  
-matriz =   [[0, 0, 0, 0], 
-            [0, 0, 0, 0], 
-            [0, 0, 0, 0], 
-            [0, 0, 0, 0]]
-for l in range(0, 4):
-    for c in range(0, 4):
-        matriz[l][c]
+
+
+matriz = gerarMatriz()
 startGame(matriz)
-while test == 0:
-    for l in range(0, 4):
-        for c in range(0, 4):
-            print(f'|{matriz[l][c]:^4}|', end='')
-        print()
+while play == 0:
+    exibirMatriz(matriz)
+    if score > high_score:
+        high_score = score
+    print(f'Score: {score} \nHigh Score: {high_score}')
     matriz_anterior = matrizParaComparacao(matriz)
     entrada = input('Digite: ').upper().strip()
     movimentoSoma(entrada)
     matriz_movimentada = matrizParaComparacao(matriz)
     if matriz_anterior != matriz_movimentada:
         spawnCasas(matriz)
+        quant_jogadas += 1
     for l in range(0, 4):
         for c in range(0, 4):
             if matriz[l][c] == 2048:
-                print('VOCÊ VENCEU!!!')
-                test += 1
+                exibirMatriz(matriz)
+                if score > high_score:
+                    high_score = score
+                print(f'VOCÊ VENCEU!!! \nScore: {score} \nHigh Score: {high_score}')
+                restart = input('Digite 1 para jogar novamente: ')
+                if restart == '1':
+                    matriz = gerarMatriz()
+                    startGame(matriz)
+                    score = 0
+                else:
+                    print('Jogo encerrado')
+                    play +=1
+
     if verifJogadas(matriz):
         continue
     else:
-        print('Você perdeu')
-        test += 1
+        exibirMatriz(matriz)
+        if score > high_score:
+            high_score = score
+        print(f'Você perdeu \nScore: {score} \nHigh Score: {high_score}')
+        restart = input('Digite 1 para jogar novamente: ')
+        if restart == '1':
+            matriz = gerarMatriz()
+            startGame(matriz)
+            score = 0
+        else:
+            print('Jogo encerrado')
+            play +=1
 
