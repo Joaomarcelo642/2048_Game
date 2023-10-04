@@ -1,7 +1,23 @@
+"""*******************************************************************************
+Sistema operacional: Windows 10
+Versão Python: 3.11.5 (64-bit)
+Autor: João Marcelo Nascimento Fernandes
+Componente Curricular: Algoritmos I
+Concluido em: 04/10/2023
+Declaro que este código foi elaborado por mim de forma individual e não contém nenhum
+trecho de código de outro colega ou de outro autor, tais como provindos de livros e
+apostilas, e páginas ou documentos eletrônicos da Internet. Qualquer trecho de código
+de outra autoria que não a minha está destacado com uma citação para o autor e a fonte
+do código, e estou ciente que estes trechos não serão considerados para fins de avaliação.
+******************************************************************************************"""
+
+#Importação da biblioteca random:
 import random
 
-play = score = high_score = quant_jogadas = record_jogadas = 0
+#Declaração de varíaveis a seguir:
+play = score = high_score = last_score = quant_jogadas = record_jogadas = 0
 
+#Função que gera a matriz base do programa:
 def gerarMatriz():
     matriz = []
     for l in range(0, 4):
@@ -11,7 +27,7 @@ def gerarMatriz():
         matriz.append(linha)
     return matriz
 
-
+#Função que inicia o jogo, gerando dois valores em posições aleatórias na matriz:
 def startGame(matriz):
     spawn = 0
     while spawn < 2:
@@ -19,10 +35,10 @@ def startGame(matriz):
         c = random.randint(0, 3) 
         if matriz[l][c] == 0:
             spawn += 1
-            matriz[l][c] = random.choice([1024])
+            matriz[l][c] = random.choice([2, 4])
     return matriz
 
-
+#Função que exibe a matriz:
 def exibirMatriz(matriz):
     for l in range(0, 4):
         for c in range(0, 4):
@@ -32,7 +48,7 @@ def exibirMatriz(matriz):
                 print(f'|{matriz[l][c]:^4}|'.replace('0', ' '), end='')
         print()
 
-
+#Função que salva a matriz para compara-la com ela mesma após o movimento:
 def matrizParaComparacao(matriz):
     matriz_salva = []
     for l in matriz:
@@ -42,7 +58,7 @@ def matrizParaComparacao(matriz):
         matriz_salva.append(linha)
     return matriz_salva
 
-
+#Função que gera um novo valor após cada jogada em uma posição vazia aleatória:
 def spawnCasas(matriz):
     spawn = 0
     while spawn == 0:
@@ -55,7 +71,7 @@ def spawnCasas(matriz):
             spawn += 0
     return matriz
 
-
+#Função que realiza a movimentação e a soma para todas as direções:
 def movimentoSoma(entrada):
     global score
     if entrada == 'W':
@@ -221,7 +237,7 @@ def movimentoSoma(entrada):
     else:
         return
 
-
+#Função que verifica se há jogadas possíveis:
 def verifJogadas(matriz):
     for l in range(0, 4):
         for c in range(0, 4):
@@ -235,22 +251,23 @@ def verifJogadas(matriz):
             return True
     return False
 
-
-def verifCasasVazias(l, c):
-    for l in range(0, 4):
-        if matriz[l][c] == 0:
-            return True
-        else:
-            return False
-
-
+#Programa principal:
+input('''| 4  || 2  ||    ||    |
+| 8  || 4  ||    ||    |
+| 32 || 8  || 4  ||    |
+| 64 || 32 || 8  || 4  |
+Use W/A/S/D para jogar
+Aperte qualquer tecla para iniciar\n''')
 matriz = gerarMatriz()
 startGame(matriz)
+#Loop do programa principal:
 while play == 0:
     exibirMatriz(matriz)
-    if score > high_score:
+    #Contabilização da pontuação
+    if score > high_score or (score == high_score and quant_jogadas <= record_jogadas):
         high_score = score
-    print(f'Score: {score} \nHigh Score: {high_score}')
+        record_jogadas = quant_jogadas
+    print(f'Score: {score}  Jogadas: {quant_jogadas} \nHigh Score: {high_score}  Jogadas: {record_jogadas} \nLast Score: {last_score}\n')
     matriz_anterior = matrizParaComparacao(matriz)
     entrada = input('Digite: ').upper().strip()
     movimentoSoma(entrada)
@@ -258,35 +275,47 @@ while play == 0:
     if matriz_anterior != matriz_movimentada:
         spawnCasas(matriz)
         quant_jogadas += 1
+    #Fim de jogo com vitória:
     for l in range(0, 4):
         for c in range(0, 4):
             if matriz[l][c] == 2048:
                 exibirMatriz(matriz)
-                if score > high_score:
+                if score > high_score or (score == high_score and quant_jogadas <= record_jogadas):
                     high_score = score
-                print(f'VOCÊ VENCEU!!! \nScore: {score} \nHigh Score: {high_score}')
+                    record_jogadas = quant_jogadas
+                print(f'VOCÊ VENCEU!!! \nScore: {score}  Jogadas: {quant_jogadas} \nHigh Score: {high_score}  Jogadas: {record_jogadas}')
                 restart = input('Digite 1 para jogar novamente: ')
+                #Reinício do jogo 1:
                 if restart == '1':
                     matriz = gerarMatriz()
                     startGame(matriz)
+                    last_score = score
                     score = 0
+                    quant_jogadas = 0
+                #Saída do loop 1:
                 else:
                     print('Jogo encerrado')
                     play +=1
-
     if verifJogadas(matriz):
         continue
+    #Fim de jogo com derrota:
     else:
         exibirMatriz(matriz)
-        if score > high_score:
+        if score > high_score or (score == high_score and quant_jogadas <= record_jogadas):
             high_score = score
-        print(f'Você perdeu \nScore: {score} \nHigh Score: {high_score}')
+            record_jogadas = quant_jogadas
+        print(f'Você perdeu \nScore: {score}  Jogadas: {quant_jogadas} \nHigh Score: {high_score}  Jogadas: {record_jogadas}')
         restart = input('Digite 1 para jogar novamente: ')
+        #Reinicio do jogo 2:
         if restart == '1':
             matriz = gerarMatriz()
             startGame(matriz)
+            last_score = score
             score = 0
+            quant_jogadas = 0
+        #Saída do loop 2:
         else:
             print('Jogo encerrado')
             play +=1
 
+#Fim de código
