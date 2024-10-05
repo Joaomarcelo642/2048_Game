@@ -12,7 +12,6 @@ Este desenvolvimento se baseou no 2° problema apresentado da displina MI-Algori
   - [Instruções para Jogar](#instruções-para-jogar)
   - [Requisitos](#requisitos)
   - [Controles do Jogo](#controles-do-jogo)
-  - [Exemplo de Interface no Console](#exemplo-de-interface-no-console)
   - [Conclusão](#conclusão)
 
 ## Informações Gerais
